@@ -37,7 +37,7 @@ module.exports = {
 
     proxyTable: {
       '/api': {
-        target: 'http://localhost:9056/api',//这里是你要代理的域名
+        target: 'http://localhost:5000/api',//这里是你要代理的域名
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''  //匹配到'/api'，就变成' '

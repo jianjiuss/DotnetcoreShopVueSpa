@@ -40,6 +40,17 @@ export default {
     },
     methods:{
         confirm: function () {
+            console.log(this.$refs.main.isNeedLogin);
+            if(this.$refs.main.isNeedLogin){
+                this.mui.toast("请先登录后再进行结算");
+                return;
+            }
+
+            if(this.$refs.main.shopCart.shopCartItems.length == 0){
+                this.mui.toast("请添加商品到购物车中再进行结算");
+                return;
+            }
+
             this.$router.push({name: 'OrderConfirm'});
         },
     },

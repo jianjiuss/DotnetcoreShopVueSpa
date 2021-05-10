@@ -8,55 +8,51 @@
 
         <template v-if="!isLoading">
 
-            <template v-if="!isLoading">
-
-                <div class="mui-card" v-if="isNeedLogin">
-                    <div class="mui-card-content">
-                        <div style="display: inline-block;margin-top: 6px;margin-left: 12px;margin-right: 6px;">
-                            <div style="height:33px;display:block;float:left;line-height:33px;">
-                            登录后可同步购物车中商品
-                            </div>
+            <div class="mui-card" v-if="isNeedLogin">
+                <div class="mui-card-content">
+                    <div style="display: inline-block;margin-top: 6px;margin-left: 12px;margin-right: 6px;">
+                        <div style="height:33px;display:block;float:left;line-height:33px;">
+                        登录后可同步购物车中商品
                         </div>
-                        <button v-on:click="toLogin" class="mui-btn mui-btn-primary" style="float: right;margin-top: 6px;margin-right: 6px;">
-                            登录
-                        </button>
                     </div>
+                    <button v-on:click="toLogin" class="mui-btn mui-btn-primary" style="float: right;margin-top: 6px;margin-right: 6px;">
+                        登录
+                    </button>
                 </div>
+            </div>
 
-                <ul class="mui-table-view">
-                    <li class="mui-table-view-cell">
-                        已选购商品
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">
+                    已选购商品
+                </li>
+            </ul>
+
+            <ul class="mui-table-view">
+
+                <template v-for="item in shopCart.shopCartItems">
+                    <li class="mui-table-view-cell mui-media mui-checkbox mui-left">
+                        <input name="checkbox" type="checkbox" style="padding: 30px 0;" v-model="item.isCheck" v-on:click="checkItem(item, item.isCheck)"/>
+                        <div>
+                            <a v-on:click="toProductDetail(item.product.id)">
+                                <img class="mui-media-object mui-pull-left" v-bind:src="global.imgServerPath + item.product.iconImageUrl">
+                                <div class="mui-media-body">
+                                    <span v-text="item.product.name"></span>
+                                    <p class='mui-ellipsis'>￥{{item.product.price}}</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="mui-numbox" data-numbox-min='1' v-bind:data-numbox-max="item.product.store" style="float: right; height: 35px;">
+                            <button class="mui-btn mui-btn-numbox-minus" type="button" >-</button>
+                            <input class="mui-input-numbox" type="number" v-bind:value="item.count" v-on:change="changeItem(item, item.isCheck, $event)"/>
+                            <button class="mui-btn mui-btn-numbox-plus" type="button" >+</button>
+                        </div>
+                        <div style="float: right;height: 35px;padding-top: 10px;">
+                            <a style="padding-right: 20px;" v-on:click="removeItem(item.product.id)">删除</a>
+                        </div>
                     </li>
-                </ul>
+                </template>
 
-                <ul class="mui-table-view">
-
-                    <template v-for="item in shopCart.shopCartItems">
-                        <li class="mui-table-view-cell mui-media mui-checkbox mui-left">
-                            <input name="checkbox" type="checkbox" style="padding: 30px 0;" v-model="item.isCheck" v-on:click="checkItem(item, item.isCheck)"/>
-                            <div>
-                                <a v-on:click="toProductDetail(item.product.id)">
-                                    <img class="mui-media-object mui-pull-left" v-bind:src="global.imgServerPath + item.product.iconImageUrl">
-                                    <div class="mui-media-body">
-                                        <span v-text="item.product.name"></span>
-                                        <p class='mui-ellipsis'>￥{{item.product.price}}</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="mui-numbox" data-numbox-min='1' v-bind:data-numbox-max="item.product.store" style="float: right; height: 35px;">
-                                <button class="mui-btn mui-btn-numbox-minus" type="button" >-</button>
-                                <input class="mui-input-numbox" type="number" v-bind:value="item.count" v-on:change="changeItem(item, item.isCheck, $event)"/>
-                                <button class="mui-btn mui-btn-numbox-plus" type="button" >+</button>
-                            </div>
-                            <div style="float: right;height: 35px;padding-top: 10px;">
-                                <a style="padding-right: 20px;" v-on:click="removeItem(item.product.id)">删除</a>
-                            </div>
-                        </li>
-                    </template>
-
-                </ul>
-
-            </template>
+            </ul>
         </template>
 
         <div style="display:none">{{totalPrice}}</div>
